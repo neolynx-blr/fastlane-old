@@ -1,4 +1,4 @@
-package com.fastlane.helper;
+package com.fastlane.helper.models;
 
 /**
  * Created by nitesh.garg on 29/03/15.

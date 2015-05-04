@@ -1,6 +1,6 @@
 package com.fastlane.api.request;
 
-import com.fastlane.helper.UserIdentificationType;
+import com.fastlane.helper.models.UserIdentificationType;
 import lombok.Data;
 
 @Data

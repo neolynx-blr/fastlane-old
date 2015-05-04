@@ -1,6 +1,9 @@
 package com.fastlane.application;
 
+import com.fastlane.cache.CategoryCache;
+import com.fastlane.db.dao.CategoryDao;
 import com.fastlane.db.model.inventory.Brand;
+import com.fastlane.db.model.inventory.Category;
 import com.fastlane.db.model.inventory.Product;
 import com.fastlane.db.dao.BrandDao;
 import com.fastlane.db.dao.ProductDao;
@@ -23,13 +26,18 @@ public class FastLaneApplication extends Application<FastLaneConfig> {
     public void run(FastLaneConfig fastLaneConfig, Environment environment) throws Exception {
         final BrandDao brandDao = new BrandDao(hibernateBundle.getSessionFactory());
         final ProductDao productDao = new ProductDao(hibernateBundle.getSessionFactory());
-        final InventoryService inventoryService = new InventoryServiceImpl(productDao);
+        final CategoryDao categoryDao = new CategoryDao(hibernateBundle.getSessionFactory());
+
+        final CategoryCache categoryCache = new CategoryCache(categoryDao);
+        categoryCache.init();
+
+        final InventoryService inventoryService = new InventoryServiceImpl(productDao, categoryCache);
         environment.jersey().register(new InventoryResource(inventoryService));
 
     }
 
     private final HibernateBundle<FastLaneConfig> hibernateBundle =
-            new HibernateBundle<FastLaneConfig>(Product.class, Brand.class) {
+            new HibernateBundle<FastLaneConfig>(Product.class, Brand.class, Category.class) {
                 @Override
                 public DataSourceFactory getDataSourceFactory(FastLaneConfig configuration) {
                     return configuration.getDataSourceFactory();

@@ -2,7 +2,9 @@ package com.fastlane.resource;
 
 import com.codahale.metrics.annotation.Timed;
 import com.fastlane.api.response.ResponseData;
+import com.fastlane.api.response.UIProductSummary;
 import com.fastlane.db.model.inventory.Product;
+import com.fastlane.helper.models.ScreenDimension;
 import com.fastlane.service.InventoryService;
 
 import javax.ws.rs.GET;
@@ -25,7 +27,7 @@ public class InventoryResource {
     @Timed
     @Path("/barcode/get")
     public ResponseData get(@QueryParam("barcodeId") Long barCodeId) {
-        Product product = inventoryService.getProductByBarcodeId(barCodeId);
+        UIProductSummary product = inventoryService.getProductByBarcodeId(barCodeId, ScreenDimension._DEFAULT);
         return ResponseData.builder().setSuccessMsg("Product for this barcode returned successfully").setData(product).build();
     }
 }

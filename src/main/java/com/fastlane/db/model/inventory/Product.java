@@ -1,6 +1,6 @@
 package com.fastlane.db.model.inventory;
 
-import com.fastlane.helper.Measure;
+import com.fastlane.helper.models.Measure;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -29,7 +29,7 @@ public class Product {
     private Integer brandId;
 
     @Column(name = "category_ids")
-    private List<Short> categoryIds;
+    private List<Long> categoryIds;
 
     /**
      * Some products have specificity beyond just tags, that should be covered in description
